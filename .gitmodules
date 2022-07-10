@@ -1,0 +1,6 @@
+[submodule "thirdparty/glog"]
+	path = thirdparty/glog
+	url = https://github.com/cycloidzzz/glog
+[submodule "thirdparty/googletest"]
+	path = thirdparty/googletest
+	url = https://github.com/cycloidzzz/googletest
