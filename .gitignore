@@ -6,6 +6,10 @@
 build
 build/*
 
+# Example
+example
+example/*
+
 # Prerequisites
 *.d
 

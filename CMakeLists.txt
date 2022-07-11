@@ -23,7 +23,9 @@ add_subdirectory(thirdparty/googletest)
 # thirdparty : LLVM
 include(cmake/findLLVM.cmake)
 
+include_directories(${PROJECT_SOURCE_DIR})
+
 add_subdirectory(mahiru/front)
 
 add_executable(main mahiru/main.cc)
-add_executable(test_isspace mahiru/test_isspace.cc)
+target_link_libraries(main mahiru_front)
