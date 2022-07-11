@@ -8,8 +8,9 @@ int main() {
   std::ifstream fin("/Users/ZiriusOu/Mahiru/example/test.txt");
   Lexer lexer(fin);
 
-  while (TokenType::kEOF != lexer.extractNextToken()) {
-    std::cout << lexer.getNextToken() << std::endl;
+  while (!lexer.isStop()) {
+    lexer.extractNextToken();
+    std::cout << lexer.nextToken() << std::endl;
   }
 
   fin.close();

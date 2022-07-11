@@ -9,17 +9,24 @@
 
 class Lexer {
  public:
-  Lexer(std::ifstream& fileIn) : mFileIn(fileIn), mLastChar(' ') {}
+  Lexer(std::ifstream& fileIn)
+      : mFileIn(fileIn), mIsStop(false), mLastChar(' ') {}
   ~Lexer() = default;
 
   MAHIRU_DISALLOW_COPY_AND_MOVE(Lexer);
 
+  void extractNextChar();
   TokenType extractNextToken();
-  const std::string& getNextToken() const { return mNextToken; }
+
+  bool isStop() const { return mIsStop; }
+  TokenType tokenType() const { return mTokenType; }
+  const std::string& nextToken() const { return mNextToken; }
 
  private:
+  bool mIsStop;
   std::ifstream& mFileIn;
   char mLastChar;
+  TokenType mTokenType;
   std::string mNextToken;
 };
 

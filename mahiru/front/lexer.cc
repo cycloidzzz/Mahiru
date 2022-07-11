@@ -7,24 +7,37 @@ bool isDigit(char ch) { return std::isdigit(static_cast<unsigned char>(ch)); }
 bool isAlNum(char ch) { return std::isalnum(static_cast<unsigned char>(ch)); }
 }  // namespace detail
 
+/// Extract next char and set mIsStop to true when encounter EOF.
+void Lexer::extractNextChar() {
+  mFileIn.get(mLastChar);
+  if (mFileIn.eof()) {
+    mIsStop = true;
+  }
+}
+
+/// Helper function to extract the next token from the input stream
 TokenType Lexer::extractNextToken() {
-  /// Skip all spaces from the input stream and get the start of the next
-  /// token
-  while (detail::isSpace(mLastChar)) {
-    mFileIn.get(mLastChar);
+  // Skip all spaces from the input stream and get the start of the next token
+
+  while (detail::isSpace(mLastChar) && !isStop()) {
+    extractNextChar();
   }
 
   std::string NextToken;
+
+  // EOF
+  if (isStop()) {
+    return TokenType::kEOF;
+  }
 
   if (detail::isAlpha(mLastChar)) {
     // Keyword or Identifier.
     while (detail::isAlNum(mLastChar)) {
       NextToken += mLastChar;
-      mFileIn.get(mLastChar);
+      extractNextChar();
     }
 
     // TODO (cycloid): refactor with table-driven instead of multiple if-else
-    // keyword : def
     mNextToken = std::move(NextToken);
     if (mNextToken == "def") {
       return TokenType::kDef;
@@ -38,7 +51,7 @@ TokenType Lexer::extractNextToken() {
   if (detail::isDigit(mLastChar)) {
     while (detail::isAlNum(mLastChar)) {
       NextToken += mLastChar;
-      mFileIn.get(mLastChar);
+      extractNextChar();
     }
 
     mNextToken = std::move(NextToken);
@@ -56,11 +69,10 @@ TokenType Lexer::extractNextToken() {
     mNextToken = NextToken;
 
     do {
-      mFileIn.get(mLastChar);
-    } while (detail::isSpace(mLastChar));
+      // Eat the current char.
+      extractNextChar();
+    } while (detail::isSpace(mLastChar) && !isStop());
 
     return TokenType::kOperator;
-  } else {
-    return TokenType::kEOF;
   }
 }
