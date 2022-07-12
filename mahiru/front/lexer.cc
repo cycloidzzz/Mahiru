@@ -9,8 +9,8 @@ bool isAlNum(char ch) { return std::isalnum(static_cast<unsigned char>(ch)); }
 
 /// Extract next char and set mIsStop to true when encounter EOF.
 void Lexer::extractNextChar() {
-  mFileIn.get(mLastChar);
-  if (mFileIn.eof()) {
+  mInStream.get(mLastChar);
+  if (mInStream.eof()) {
     mIsStop = true;
   }
 }
@@ -66,7 +66,7 @@ TokenType Lexer::extractNextToken() {
   if (mLastChar != EOF) {
     // FIXME : operators with more than two chars, e.g. '>='
     NextToken += mLastChar;
-    mNextToken = NextToken;
+    mNextToken = std::move(NextToken);
 
     do {
       // Eat the current char.

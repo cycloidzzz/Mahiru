@@ -1,6 +1,7 @@
 set(MAHIRU_FRONT_SRCS
     lexer.cc
     parser.cc
+    ast.cc
 )
 
 add_library(mahiru_front ${MAHIRU_FRONT_SRCS})

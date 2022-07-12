@@ -11,6 +11,16 @@ enum class TokenType {
   kOperator = 4,
 };
 
+enum class OpType {
+  kOpAdd = 0,
+  kOpSub = 1,
+  kOpMul = 2,
+  kOpDiv = 3,
+  KOpBitAnd = 6,
+  kOpBitOr = 7,
+  kOpAssign = 8
+};
+
 struct Token {
  public:
   Token() = default;

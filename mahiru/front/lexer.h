@@ -9,8 +9,8 @@
 
 class Lexer {
  public:
-  Lexer(std::ifstream& fileIn)
-      : mFileIn(fileIn), mIsStop(false), mLastChar(' ') {}
+  Lexer(std::ifstream& inStream)
+      : mIsStop(false), mLastChar(' '), mInStream(inStream) {}
   ~Lexer() = default;
 
   MAHIRU_DISALLOW_COPY_AND_MOVE(Lexer);
@@ -24,10 +24,10 @@ class Lexer {
 
  private:
   bool mIsStop;
-  std::ifstream& mFileIn;
   char mLastChar;
   TokenType mTokenType;
   std::string mNextToken;
+  std::ifstream& mInStream;
 };
 
 #endif  // ! MAHIRU_SRC_FRONT_LEXER_H
